@@ -73,6 +73,13 @@ button {
   box-shadow: 0 6px 18px rgba(178,58,72,0.35);
 }
 
+hr {
+  margin: 28px 0;
+  border: none;
+  height: 1px;
+  background: #eee;
+}
+
 #result {
   margin-top: 28px;
   padding: 16px;

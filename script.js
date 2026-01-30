@@ -74,7 +74,6 @@ const baseDates = [
 const storedDates = JSON.parse(localStorage.getItem("userDates")) || [];
 let dates = [...baseDates, ...storedDates];
 
-const category = document.getElementById("category");
 const result = document.getElementById("result");
 
 const categoryContainer = document.getElementById("categories");
@@ -140,5 +139,4 @@ document.getElementById("add").onclick = () => {
   newIdea.value = "";
 };
 
-refresh();
 refreshCategories();

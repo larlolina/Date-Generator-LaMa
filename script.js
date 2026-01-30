@@ -1,4 +1,4 @@
-let dates = [
+const baseDates = [
   { cat: "Aktivität", idea: "Kostenlose Hafenrundfahrt mit der ÖPNV-Fähre und eine Piccolo-Flasche Sekt" },
   { cat: "Aktivität", idea: "Richtige Hafenrundfahrt" },
   { cat: "Aktivität", idea: "Minigolf (Planten und Blomen, Stadtpark oder Schwarzlichtviertel)" },
@@ -71,6 +71,9 @@ let dates = [
   { cat: "Zuhause", idea: "Outfit für nächste Date Night aussuchen / bestellen" },
 ];
 
+const storedDates = JSON.parse(localStorage.getItem("userDates")) || [];
+let dates = [...baseDates, ...storedDates];
+
 const category = document.getElementById("category");
 const result = document.getElementById("result");
 
@@ -105,11 +108,21 @@ document.getElementById("roll").onclick = () => {
 };
 
 document.getElementById("add").onclick = () => {
-  dates.push({
-    cat: newCategory.value,
-    idea: newIdea.value
-  });
-  refresh();
+  const cat = newCategory.value.trim();
+  const idea = newIdea.value.trim();
+
+  if (!cat || !idea) return;
+
+  const entry = { cat, idea };
+
+  storedDates.push(entry);
+  localStorage.setItem("userDates", JSON.stringify(storedDates));
+
+  dates.push(entry);
+  refreshCategories();
+
+  newCategory.value = "";
+  newIdea.value = "";
 };
 
 refresh();

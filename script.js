@@ -84,8 +84,24 @@ function refresh() {
 }
 
 document.getElementById("roll").onclick = () => {
-  const f = dates.filter(d => d.cat === category.value);
-  result.textContent = f[Math.floor(Math.random() * f.length)].idea;
+  const selectedCategories = [...category.selectedOptions].map(o => o.value);
+
+  if (selectedCategories.length === 0) {
+    result.textContent = "Bitte mindestens eine Kategorie auswählen";
+    return;
+  }
+
+  const filtered = dates.filter(d =>
+    selectedCategories.includes(d.cat)
+  );
+
+  if (filtered.length === 0) {
+    result.textContent = "Keine Vorschläge gefunden";
+    return;
+  }
+
+  const pick = filtered[Math.floor(Math.random() * filtered.length)];
+  result.textContent = pick.idea;
 };
 
 document.getElementById("add").onclick = () => {

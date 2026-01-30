@@ -77,18 +77,38 @@ let dates = [...baseDates, ...storedDates];
 const category = document.getElementById("category");
 const result = document.getElementById("result");
 
-function refresh() {
-  category.innerHTML = "";
-  [...new Set(dates.map(d => d.cat))].forEach(c => {
-    let o = document.createElement("option");
-    o.textContent = c;
-    category.appendChild(o);
+const categoryContainer = document.getElementById("categories");
+let selectedCategories = [];
+
+function refreshCategories() {
+  categoryContainer.innerHTML = "";
+
+  const cats = [...new Set(dates.map(d => d.cat))];
+
+  cats.forEach(cat => {
+    const btn = document.createElement("button");
+    btn.textContent = cat;
+    btn.className = "cat-btn";
+
+    if (selectedCategories.includes(cat)) {
+      btn.classList.add("active");
+    }
+
+    btn.onclick = () => {
+      if (selectedCategories.includes(cat)) {
+        selectedCategories = selectedCategories.filter(c => c !== cat);
+        btn.classList.remove("active");
+      } else {
+        selectedCategories.push(cat);
+        btn.classList.add("active");
+      }
+    };
+
+    categoryContainer.appendChild(btn);
   });
 }
 
 document.getElementById("roll").onclick = () => {
-  const selectedCategories = [...category.selectedOptions].map(o => o.value);
-
   if (selectedCategories.length === 0) {
     result.textContent = "Bitte mindestens eine Kategorie auswählen";
     return;
@@ -97,11 +117,6 @@ document.getElementById("roll").onclick = () => {
   const filtered = dates.filter(d =>
     selectedCategories.includes(d.cat)
   );
-
-  if (filtered.length === 0) {
-    result.textContent = "Keine Vorschläge gefunden";
-    return;
-  }
 
   const pick = filtered[Math.floor(Math.random() * filtered.length)];
   result.textContent = pick.idea;

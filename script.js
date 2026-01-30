@@ -140,4 +140,4 @@ document.getElementById("add").onclick = () => {
   newIdea.value = "";
 };
 
-refresh();
+refreshCategories();
